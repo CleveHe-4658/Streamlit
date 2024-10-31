@@ -3,14 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
+from datetime import datetime, timedelta
 # matplotlib.use('TkAgg')
 
-def plot_anomalies(ticker, scaled_data, model='DBSCAN'):
+def plot_anomalies(ticker, scaled_data, model='DBSCAN',values):
     '''
     model = 'statistical', 'DBSCAN', 'IsolationForest', 'OCSVM', 'Autoencoder'
     '''
     # Filter the data for the specified ticker
-    data_tic = scaled_data[scaled_data['tic'] == ticker].copy()
+    data_tic_all = scaled_data[scaled_data['tic'] == ticker].copy()
+    data_tic = data_tic_all[data_tic_all['date'] >= && data_tic_all['date']<= ].copy()
 
     # calculate return data
     data_tic['return'] = data_tic['close'].pct_change(fill_method=None)
@@ -89,7 +91,13 @@ model = st.selectbox(
 )
 model = word_match[model]
 
-if ticker and model:
-    fig = plot_anomalies(ticker, data, model)
+values = st.slider("Select a range of dates", 42297, 45533, (42297, 45533))
+
+st.write("Starting Date:", values)
+st.write("Ending Date:", values)
+st.write("Values:", values)
+
+if ticker and model and values:
+    fig = plot_anomalies(ticker, data, model,values)
     st.pyplot(fig)
     # plt.show()
