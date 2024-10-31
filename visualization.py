@@ -56,7 +56,7 @@ Available stock universe is the 200 least liquid stocks in Russell 2000. Time ho
 To view the labelled anomalies, choose one ticker and one model type from the selection bar.
 """)
 
-data = pd.read_csv("data/df_results.csv", parse_dates=['date'])
+data = pd.read_csv("df_final_merged_renewed.csv", parse_dates=['date'])
 
 word_match = { # show : colname
     'DBSCAN': 'DBSCAN',
