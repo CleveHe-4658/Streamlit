@@ -1,0 +1,1 @@
+date,tic,month,close,volume,macd,boll_ub,boll_lb,rsi_30,cci_30,dx_30,close_30_sma,close_60_sma,turbulence,vix,sentiment,ATR,Price_Change,DBSCAN_Anomaly,OCSVM_Anomaly,IsolationForest_Anomaly,Autoencoder_Anomaly,stat_anomaly,stat_Anomaly
