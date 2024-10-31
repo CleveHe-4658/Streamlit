@@ -10,7 +10,7 @@ def excel_date_to_datetime(excel_date):
     """Converts an Excel date (integer) to a Python datetime object."""
     return datetime(1900, 1, 1) + timedelta(days=excel_date - 2)
 
-def plot_anomalies(ticker, scaled_data, model='DBSCAN',stdt,eddt):
+def plot_anomalies(ticker, scaled_data,stdt,eddt, model='DBSCAN'):
     '''
     model = 'statistical', 'DBSCAN', 'IsolationForest', 'OCSVM', 'Autoencoder'
     '''
@@ -103,6 +103,6 @@ st.write("Ending Date:", eddt.strftime('%Y-%m-%d'))
 
 
 if ticker and model and values:
-    fig = plot_anomalies(ticker, data, model,stdt,eddt)
+    fig = plot_anomalies(ticker, data,stdt,eddt, model)
     st.pyplot(fig)
     # plt.show()
