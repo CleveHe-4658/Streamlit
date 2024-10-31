@@ -16,7 +16,7 @@ def plot_anomalies(ticker, scaled_data, model='DBSCAN',stdt,eddt):
     '''
     # Filter the data for the specified ticker
     data_tic_all = scaled_data[scaled_data['tic'] == ticker].copy()
-    data_tic = data_tic_all[(data_tic_all['date'] >= stdt) & (data_tic_all['date']<= eddt）].copy()
+    data_tic = data_tic_all[(data_tic_all['date'] >= stdt) & (data_tic_all['date']<= eddt)].copy()
 
     # calculate return data
     data_tic['return'] = data_tic['close'].pct_change(fill_method=None)
