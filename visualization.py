@@ -100,8 +100,8 @@ model = word_match[model]
 values = st.slider("Select a range of dates", 42297, 45533, (42297, 45533))
 stdt=excel_date_to_datetime(values[0])
 eddt=excel_date_to_datetime(values[1])
-st.write("Starting Date:", stdt.strftime('%Y-%m-%d'),"           ","Ending Date:", eddt.strftime('%Y-%m-%d'))
-
+st.write("Starting Date:", stdt.strftime('%Y-%m-%d'))
+st.write("Ending Date:", eddt.strftime('%Y-%m-%d'))
 
 if ticker and model and values:
     fig = plot_anomalies(ticker, data,stdt,eddt, model)
