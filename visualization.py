@@ -6,13 +6,17 @@ import numpy as np
 from datetime import datetime, timedelta
 # matplotlib.use('TkAgg')
 
-def plot_anomalies(ticker, scaled_data, model='DBSCAN',values):
+def excel_date_to_datetime(excel_date):
+    """Converts an Excel date (integer) to a Python datetime object."""
+    return datetime(1900, 1, 1) + timedelta(days=excel_date - 2)
+
+def plot_anomalies(ticker, scaled_data, model='DBSCAN',stdt,eddt):
     '''
     model = 'statistical', 'DBSCAN', 'IsolationForest', 'OCSVM', 'Autoencoder'
     '''
     # Filter the data for the specified ticker
     data_tic_all = scaled_data[scaled_data['tic'] == ticker].copy()
-    data_tic = data_tic_all[data_tic_all['date'] >= && data_tic_all['date']<= ].copy()
+    data_tic = data_tic_all[(data_tic_all['date'] >= stdt) & (data_tic_all['date']<= eddt）].copy()
 
     # calculate return data
     data_tic['return'] = data_tic['close'].pct_change(fill_method=None)
@@ -92,12 +96,13 @@ model = st.selectbox(
 model = word_match[model]
 
 values = st.slider("Select a range of dates", 42297, 45533, (42297, 45533))
+stdt=excel_date_to_datetime(values[0])
+eddt=excel_date_to_datetime(values[1])
+st.write("Starting Date:", stdt.strftime('%Y-%m-%d'))
+st.write("Ending Date:", eddt.strftime('%Y-%m-%d'))
 
-st.write("Starting Date:", values)
-st.write("Ending Date:", values)
-st.write("Values:", values)
 
 if ticker and model and values:
-    fig = plot_anomalies(ticker, data, model,values)
+    fig = plot_anomalies(ticker, data, model,stdt,eddt)
     st.pyplot(fig)
     # plt.show()
