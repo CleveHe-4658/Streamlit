@@ -94,7 +94,8 @@ model = st.selectbox(
 )
 model = word_match[model]
 
-default_start, default_end = datetime(2015, 10, 20), datetime(2024, 8, 29)
+default_start= datetime(2015, 10, 20)
+default_end=datetime(2024, 8, 29)
 available_datas = []
 date_range = default_start
 while date_range <= default_end:
@@ -106,7 +107,9 @@ date_range_string = date_range_picker(picker_type=PickerType.date,
                                       available_dates=available_datas,
                                       key='available_date_range_picker',)
 if date_range_string is not None:
-    stdt,eddt = date_range_string
+    stdt = date_range_string[0]
+    eddt = date_range_string[1]
+
 
 st.write("Starting Date:", stdt.strftime('%Y-%m-%d'))
 st.write("Ending Date:", eddt.strftime('%Y-%m-%d'))
