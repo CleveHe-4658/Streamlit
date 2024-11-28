@@ -115,8 +115,8 @@ date_range_string = date_range_picker(picker_type=PickerType.date,
 if date_range_string:
     dstart, dend = date_range_string
     st.write(f"Date Range Picker [{dstart}, {dend}]")
-
-delta = dend - dstart
+date_format = "%Y-%m-%d"
+delta = datetime.strptime(dend, date_format)- datetime.strptime(dstart, date_format)
 days = delta.days+1
 
 if ticker and thd_prob and model and date_range_string:
