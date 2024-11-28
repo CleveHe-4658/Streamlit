@@ -106,13 +106,9 @@ date_range_string = date_range_picker(picker_type=PickerType.date,
                                       start=default_start, end=default_end,
                                       available_dates=available_datas,
                                       key='available_date_range_picker',)
-if date_range_string is not None:
-    stdt = date_range_string[0]
-    eddt = date_range_string[1]
-
-
-st.write("Starting Date:", stdt.strftime('%Y-%m-%d'))
-st.write("Ending Date:", eddt.strftime('%Y-%m-%d'))
+if date_range_string:
+    dstart, dend = date_range_string
+    st.write(f"Date Range Picker [{dstart}, {dend}]")
 
 if ticker and model and date_range_string:
     fig = plot_anomalies(ticker, data,stdt,eddt, model)
