@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 from datetime import datetime, timedelta
+from streamlit_datetime_range_picker import datetime_range_picker
 # matplotlib.use('TkAgg')
-
-def excel_date_to_datetime(excel_date):
-    """Converts an Excel date (integer) to a Python datetime object."""
-    return datetime(1900, 1, 1) + timedelta(days=excel_date - 2)
 
 def plot_anomalies(ticker, scaled_data,stdt,eddt, model='DBSCAN'):
     '''
@@ -97,13 +94,25 @@ model = st.selectbox(
 )
 model = word_match[model]
 
-values = st.slider("Select a range of dates", 42297, 45533, (42297, 45533))
-stdt=excel_date_to_datetime(values[0])
-eddt=excel_date_to_datetime(values[1])
+st.markdown("#### 6.Available Date Range Picker")
+default_start, default_end = datetime(2015, 10, 20), datetime(2024, 8, 29)
+available_datas = []
+date_range = start_date
+while date_range <= end_date:
+    available_datas.append(date_range)
+    date_range += timedelta(days=1)
+
+date_range_string = date_range_picker(picker_type=PickerType.date,
+                                      start=default_start, end=default_end,
+                                      available_dates=available_datas,
+                                      key='available_date_range_picker',)
+if date_range_string is not None:
+    stdt,eddt = date_range_string
+
 st.write("Starting Date:", stdt.strftime('%Y-%m-%d'))
 st.write("Ending Date:", eddt.strftime('%Y-%m-%d'))
 
-if ticker and model and values:
+if ticker and model and date_range_string:
     fig = plot_anomalies(ticker, data,stdt,eddt, model)
     st.pyplot(fig)
     # plt.show()
