@@ -20,7 +20,7 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     data_tic['log_volume'] = np.log(data_tic['volume']+1)
 
     # Filter for anomalies where 'Anomaly Probability' exceed threshold
-    anomalies_prob = data_tic[data_tic[f'{model}_Anomaly_Probability'] >= thd_prob]
+    anomalies = data_tic[data_tic[f'{model}_Anomaly_Probability'] >= thd_prob]
 
     # Plotting
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
