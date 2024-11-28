@@ -96,6 +96,7 @@ model = word_match[model]
 
 default_start= datetime(2015, 10, 20)
 default_end=datetime(2024, 8, 29)
+dstart, dend = default_start,default_end
 available_datas = []
 date_range = default_start
 while date_range <= default_end:
@@ -111,6 +112,6 @@ if date_range_string:
     st.write(f"Date Range Picker [{dstart}, {dend}]")
 
 if ticker and model and date_range_string:
-    fig = plot_anomalies(ticker, data,stdt,eddt, model)
+    fig = plot_anomalies(ticker, data, dstart, dend , model)
     st.pyplot(fig)
     # plt.show()
