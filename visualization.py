@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from streamlit_date_picker import date_range_picker, date_picker, PickerType
 # matplotlib.use('TkAgg')
 
-def plot_anomalies(ticker, scaled_data,stdt,eddt, model='DBSCAN'):
+def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     '''
     model = 'statistical', 'DBSCAN', 'IsolationForest', 'OCSVM', 'Autoencoder'
     '''
@@ -19,8 +19,8 @@ def plot_anomalies(ticker, scaled_data,stdt,eddt, model='DBSCAN'):
     data_tic['return'] = data_tic['close'].pct_change(fill_method=None)
     data_tic['log_volume'] = np.log(data_tic['volume']+1)
 
-    # Filter for anomalies where 'Anomaly' equals 1
-    anomalies = data_tic[data_tic[f'{model}_Anomaly'] == 1]
+    # Filter for anomalies where 'Anomaly Probability' exceed threshold
+    anomalies_prob = data_tic[data_tic[f'{model}_Anomaly_Probability'] >= thd_prob]
 
     # Plotting
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
@@ -61,19 +61,18 @@ To view the labelled anomalies, choose one ticker and one model type from the se
 Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted by a range slider. 
 """)
 
-data = pd.read_csv("df_final_merged_renewed.csv", parse_dates=['date'])
+data = pd.read_csv("df_final_prob.csv", parse_dates=['date'])
 
 word_match = { # show : colname
     'DBSCAN': 'DBSCAN',
     'Isolation Forest': 'IsolationForest',
     'One-class SVM' : 'OCSVM',
-    'Statistical Model' : 'stat',
-    'Autoencoder': 'Autoencoder',
+    #'Statistical Model' : 'stat',
+    #'Autoencoder': 'Autoencoder',
 }
 
 # data = data[['date', 'tic', 'close', 'volume',
-#        'DBSCAN_Anomaly', 'IsolationForest_Anomaly', 'OCSVM_Anomaly',
-#        'Autoencoder_Anomaly', 'stat_Anomaly']]
+#        'DBSCAN_Anomaly_Probability', 'IsolationForest_Anomaly_Probability', 'OCSVM_Anomaly_Probability']]
 
 ticker_list = data['tic'].unique()
 model_list = list(word_match.keys())
@@ -94,6 +93,11 @@ model = st.selectbox(
 )
 model = word_match[model]
 
+thd_prob=st.number_input(
+    "Input the desired probability ", value=0.90, placeholder="Type a probability..."
+)
+st.write("The current probability is ", number)
+
 default_start= datetime(2015, 10, 20)
 default_end=datetime(2024, 8, 29)
 dstart, dend = default_start,default_end
@@ -111,7 +115,7 @@ if date_range_string:
     dstart, dend = date_range_string
     st.write(f"Date Range Picker [{dstart}, {dend}]")
 
-if ticker and model and date_range_string:
-    fig = plot_anomalies(ticker, data, dstart, dend , model)
+if ticker and thd_prob and model and date_range_string:
+    fig = plot_anomalies(ticker, thd_prob, data, dstart, dend , model)
     st.pyplot(fig)
     # plt.show()
