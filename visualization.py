@@ -97,7 +97,7 @@ model = word_match[model]
 thd_prob=st.number_input(
     "Input the desired probability ",min_value=0.0, max_value=1.0, value=0.90, placeholder="Type a probability..."
 )
-st.write("The current probability is {thd_prob}")
+st.write(f"The current probability is {thd_prob}.")
 
 default_start= datetime(2015, 10, 20)
 default_end=datetime(2024, 8, 29)
