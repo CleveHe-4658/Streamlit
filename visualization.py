@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 from datetime import datetime, timedelta
-from streamlit_datetime_range_picker import datetime_range_picker
+from streamlit-date-picker import datetime_range_picker
 # matplotlib.use('TkAgg')
 
 def plot_anomalies(ticker, scaled_data,stdt,eddt, model='DBSCAN'):
