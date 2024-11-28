@@ -94,7 +94,6 @@ model = st.selectbox(
 )
 model = word_match[model]
 
-st.markdown("#### 6.Available Date Range Picker")
 default_start, default_end = datetime(2015, 10, 20), datetime(2024, 8, 29)
 available_datas = []
 date_range = default_start
