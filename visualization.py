@@ -14,6 +14,7 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     # Filter the data for the specified ticker
     data_tic_all = scaled_data[scaled_data['tic'] == ticker].copy()
     data_tic = data_tic_all[(data_tic_all['date'] >= stdt) & (data_tic_all['date']<= eddt)].copy()
+    nds=len(data_tic)
 
     # calculate return data
     data_tic['return'] = data_tic['close'].pct_change(fill_method=None)
@@ -48,7 +49,7 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     ax[2].legend()
     plt.xlabel('Date')
 
-    return fig, nps
+    return fig, nps,nds
 
 st.title("Anomaly Visualization")
 st.write('Bloomberg capstone group Bravo:')
@@ -115,12 +116,10 @@ date_range_string = date_range_picker(picker_type=PickerType.date,
 if date_range_string:
     dstart, dend = date_range_string
     st.write(f"Date Range Picker [{dstart}, {dend}]")
-date_format = "%Y-%m-%d"
-delta = datetime.strptime(dend, date_format)- datetime.strptime(dstart, date_format)
-days = delta.days+1
+
 
 if ticker and thd_prob and model and date_range_string:
-    fig,nps = plot_anomalies(ticker, thd_prob, data, dstart, dend , model)
+    fig,nps,nds = plot_anomalies(ticker, thd_prob, data, dstart, dend , model)
     st.pyplot(fig)
-    st.write(f"In total {nps} anomalies detected within {days} days.")
+    st.write(f"In total {nps} anomalies detected within {nds} days.")
     # plt.show()
