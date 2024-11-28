@@ -94,7 +94,7 @@ model = st.selectbox(
 model = word_match[model]
 
 thd_prob=st.number_input(
-    "Input the desired probability ", value=0.90, placeholder="Type a probability..."
+    "Input the desired probability ",min_value=0.0, max_value=1.0, value=0.90, placeholder="Type a probability..."
 )
 st.write("The current probability is ", thd_prob)
 
