@@ -21,7 +21,7 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
 
     # Filter for anomalies where 'Anomaly Probability' exceed threshold
     anomalies = data_tic[data_tic[f'{model}_Anomaly_Probability'] >= thd_prob]
-    np=len(anomalies)
+    nps=len(anomalies)
 
     # Plotting
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
@@ -48,7 +48,7 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     ax[2].legend()
     plt.xlabel('Date')
 
-    return fig, np
+    return fig, nps
 
 st.title("Anomaly Visualization")
 st.write('Bloomberg capstone group Bravo:')
@@ -120,7 +120,7 @@ delta = datetime.strptime(dend, date_format)- datetime.strptime(dstart, date_for
 days = delta.days+1
 
 if ticker and thd_prob and model and date_range_string:
-    fig,np = plot_anomalies(ticker, thd_prob, data, dstart, dend , model)
+    fig,nps = plot_anomalies(ticker, thd_prob, data, dstart, dend , model)
     st.pyplot(fig)
-    st.write("In total ", np, " anomalies detected within ", days, " days.")
+    st.write("In total ", nps, " anomalies detected within ", days, " days.")
     # plt.show()
