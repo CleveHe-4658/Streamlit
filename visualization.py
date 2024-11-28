@@ -97,8 +97,8 @@ model = word_match[model]
 st.markdown("#### 6.Available Date Range Picker")
 default_start, default_end = datetime(2015, 10, 20), datetime(2024, 8, 29)
 available_datas = []
-date_range = start_date
-while date_range <= end_date:
+date_range = default_start
+while date_range <= default_end:
     available_datas.append(date_range)
     date_range += timedelta(days=1)
 
