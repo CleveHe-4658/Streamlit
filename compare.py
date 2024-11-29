@@ -59,7 +59,7 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
 
     return fig,nps1,nps2,nds
 
-st.title("Anomaly Visualization")
+st.title("Anomaly Visualization to compare two models")
 st.write('Bloomberg capstone group Bravo:')
 st.write("Xinran Cheng, Zhaoyang Hong, Qi Wu, Haoran Yang, Cleve He")
 
