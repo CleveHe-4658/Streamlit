@@ -26,7 +26,7 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     anomalies2 = data_tic.sort_values(by=f'{model2}_Anomaly_Probability', ascending=False).head(min(nds,anom_num))
     nps2=len(anomalies2)
     
-    anomalies_intersec = pd.merge(anomalies1, anomalies2, on=anomalies1.columns, how='inner')
+    anomalies_intersec = pd.merge(anomalies1, anomalies2, on=anomalies1.columns.tolist(), how='inner')
     ncs=len(anomalies_intersec)
 
     # Plotting
@@ -54,10 +54,9 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     ax[2].bar(anomalies2['date'], anomalies2['log_volume'], color='green', label=f'{model2} Anomaly', width=1)
 
     # Mark anomalies for intersect
-    if ncs>0:
-        ax[0].scatter(anomalies_intersec['date'], anomalies_intersec['close'], color='darkorange', label='Shared Anomaly', marker='^')
-        ax[1].scatter(anomalies_intersec['date'], anomalies_intersec['return'], color='darkorange', label='Shared Anomaly', marker='^')
-        ax[2].bar(anomalies_intersec['date'], anomalies_intersec['log_volume'], color='darkorange', label='Shared Anomaly', width=1)
+    ax[0].scatter(anomalies_intersec['date'], anomalies_intersec['close'], color='darkorange', label='Shared Anomaly', marker='^')
+    ax[1].scatter(anomalies_intersec['date'], anomalies_intersec['return'], color='darkorange', label='Shared Anomaly', marker='^')
+    ax[2].bar(anomalies_intersec['date'], anomalies_intersec['log_volume'], color='darkorange', label='Shared Anomaly', width=1)
     
     # show legend and xlabel
     ax[0].legend()
