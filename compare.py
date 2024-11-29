@@ -104,7 +104,7 @@ model1 = st.selectbox(
 model1 = word_match[model1]
 
 model2 = st.selectbox(
-    "Select a model",
+    "Select another model",
     model_list,
     placeholder='Select...'
 )
