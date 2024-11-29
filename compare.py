@@ -29,6 +29,14 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     anomalies_intersec = pd.merge(anomalies1, anomalies2, on=anomalies1.columns.tolist(), how='inner')
     ncs=len(anomalies_intersec)
 
+    anomalies_diff1 = anomalies1.merge(anomalies2, on=anomalies1.columns.tolist(), how='left', indicator=True)
+    anomalies_diff1 = anomalies_diff1[anomalies_diff1['_merge'] == 'left_only']
+    anomalies_diff1.drop('_merge', axis=1, inplace=True)
+    
+    anomalies_diff2 = anomalies2.merge(anomalies1, on=anomalies2.columns.tolist(), how='left', indicator=True)
+    anomalies_diff2 = anomalies_diff2[anomalies_diff2['_merge'] == 'left_only']
+    anomalies_diff2.drop('_merge', axis=1, inplace=True)
+
     # Plotting
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
 
@@ -44,14 +52,14 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     
 
     # Mark anomalies for model 1
-    ax[0].scatter(anomalies1['date'], anomalies1['close'], color='red', label=f'{model1} Anomaly', marker='^')
-    ax[1].scatter(anomalies1['date'], anomalies1['return'], color='red', label=f'{model1} Anomaly', marker='^')
-    ax[2].bar(anomalies1['date'], anomalies1['log_volume'], color='red', label=f'{model1} Anomaly', width=1)
+    ax[0].scatter(anomalies_diff1['date'], anomalies_diff1['close'], color='red', label=f'{model1} Only Anomaly', marker='^')
+    ax[1].scatter(anomalies_diff1['date'], anomalies_diff1['return'], color='red', label=f'{model1} Only Anomaly', marker='^')
+    ax[2].bar(anomalies_diff1['date'], anomalies_diff1['log_volume'], color='red', label=f'{model1} Only Anomaly', width=1)
     
     # Mark anomalies for model 2
-    ax[0].scatter(anomalies2['date'], anomalies2['close'], color='green', label=f'{model2} Anomaly', marker='^')
-    ax[1].scatter(anomalies2['date'], anomalies2['return'], color='green', label=f'{model2} Anomaly', marker='^')
-    ax[2].bar(anomalies2['date'], anomalies2['log_volume'], color='green', label=f'{model2} Anomaly', width=1)
+    ax[0].scatter(anomalies_diff2['date'], anomalies_diff2['close'], color='green', label=f'{model2} Only Anomaly', marker='^')
+    ax[1].scatter(anomalies_diff2['date'], anomalies_diff2['return'], color='green', label=f'{model2} Only Anomaly', marker='^')
+    ax[2].bar(anomalies_diff2['date'], anomalies_diff2['log_volume'], color='green', label=f'{model2} Only Anomaly', width=1)
 
     # Mark anomalies for intersect
     ax[0].scatter(anomalies_intersec['date'], anomalies_intersec['close'], color='darkviolet', label='Shared Anomaly', marker='^')
