@@ -102,7 +102,7 @@ model1 = st.selectbox(
     placeholder='Select...'
 )
 
-model_list_copy=model_list[:]
+model_list_copy=model_list[::-1]
 model_list_copy.remove(model1)
 model1 = word_match[model1]
 model2 = st.selectbox(
