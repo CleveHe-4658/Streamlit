@@ -26,14 +26,14 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     anomalies2 = data_tic.sort_values(by=f'{model2}_Anomaly_Probability', ascending=False).head(min(nds,anom_num))
     nps2=len(anomalies2)
 
-    anomalies_intersec = pd.merge(anomalies1, anomalies2, on='key', how='inner')
+    anomalies_intersec = pd.merge(anomalies1, anomalies2, on='date', how='inner')
     ncs=len(anomalies_intersec)
     
-    anomalies_diff1 = anomalies1.merge(anomalies2, on='key', how='left', indicator=True)
+    anomalies_diff1 = anomalies1.merge(anomalies2, on='date', how='left', indicator=True)
     anomalies_diff1 = anomalies_diff1[anomalies_diff1['_merge'] == 'left_only']
     anomalies_diff1.drop('_merge', axis=1, inplace=True)
     
-    anomalies_diff2 = anomalies2.merge(anomalies1, on='key', how='left', indicator=True)
+    anomalies_diff2 = anomalies2.merge(anomalies1, on='date', how='left', indicator=True)
     anomalies_diff2 = anomalies_diff2[anomalies_diff2['_merge'] == 'left_only']
     anomalies_diff2.drop('_merge', axis=1, inplace=True)
 
