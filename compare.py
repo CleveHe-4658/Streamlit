@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from streamlit_date_picker import date_range_picker, date_picker, PickerType
 # matplotlib.use('TkAgg')
 
-def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1,model2):
+def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',model2='IsolationForest'):
     '''
     model = 'statistical', 'DBSCAN', 'IsolationForest', 'OCSVM', 'Autoencoder'
     '''
