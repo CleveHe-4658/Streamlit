@@ -30,13 +30,13 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
 
     # Plot the close price and volume
-    ax[0].plot(data_tic['date'], data_tic['close'], label='Close Price')
+    ax[0].plot(data_tic['date'], data_tic['close'], color='lightcyan',label='Close Price')
     ax[0].set(title = f'{ticker} Price Anomalies')
 
-    ax[1].plot(data_tic['date'], data_tic['return'], label='Return')
+    ax[1].plot(data_tic['date'], data_tic['return'], color='lightcyan', label='Return')
     ax[1].set(title = f'{ticker} Return Anomalies')
     
-    ax[2].fill_between(data_tic['date'], 0, data_tic['log_volume'], label='log Volume', alpha=0.8)
+    ax[2].fill_between(data_tic['date'], 0, data_tic['log_volume'],facecolor='lightcyan', label='log Volume', alpha=0.8)
     ax[2].set(title=f'{ticker} Volume Anomalies')
     
 
