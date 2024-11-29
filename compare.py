@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from streamlit_date_picker import date_range_picker, date_picker, PickerType
 # matplotlib.use('TkAgg')
 
-def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
+def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1,model2):
     '''
     model = 'statistical', 'DBSCAN', 'IsolationForest', 'OCSVM', 'Autoencoder'
     '''
@@ -20,9 +20,11 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     data_tic['return'] = data_tic['close'].pct_change(fill_method=None)
     data_tic['log_volume'] = np.log(data_tic['volume']+1)
 
-    # Filter for anomalies where 'Anomaly Probability' exceed threshold
-    anomalies = data_tic[data_tic[f'{model}_Anomaly_Probability'] >= thd_prob]
-    nps=len(anomalies)
+    # Filter for anomalies with highest 'Anomaly Probability' for the desired number
+    anomalies1 = data_tic.sort_values(by=f'{model1}_Anomaly_Probability', ascending=False).head(min(nds,anom_num))
+    nps1=len(anomalies1)
+    anomalies2 = data_tic.sort_values(by=f'{model2}_Anomaly_Probability', ascending=False).head(min(nds,anom_num))
+    nps2=len(anomalies2)
 
     # Plotting
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
@@ -38,10 +40,16 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     ax[2].set(title=f'{ticker} Volume Anomalies')
     
 
-    # Mark anomalies
-    ax[0].scatter(anomalies['date'], anomalies['close'], color='red', label=f'{model} Anomaly', marker='^')
-    ax[1].scatter(anomalies['date'], anomalies['return'], color='red', label=f'{model} Anomaly', marker='^')
-    ax[2].bar(anomalies['date'], anomalies['log_volume'], color='red', label=f'{model} Anomaly', width=1)
+    # Mark anomalies for model 1
+    ax[0].scatter(anomalies1['date'], anomalies1['close'], color='red', label=f'{model1} Anomaly', marker='^')
+    ax[1].scatter(anomalies1['date'], anomalies1['return'], color='red', label=f'{model1} Anomaly', marker='^')
+    ax[2].bar(anomalies1['date'], anomalies1['log_volume'], color='red', label=f'{model1} Anomaly', width=1)
+    
+    # Mark anomalies for model 2
+    ax[0].scatter(anomalies2['date'], anomalies2['close'], color='green', label=f'{model2} Anomaly', marker='^')
+    ax[1].scatter(anomalies2['date'], anomalies2['return'], color='green', label=f'{model2} Anomaly', marker='^')
+    ax[2].bar(anomalies2['date'], anomalies2['log_volume'], color='green', label=f'{model2} Anomaly', width=1)
+
     
     # show legend and xlabel
     ax[0].legend()
@@ -49,7 +57,7 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
     ax[2].legend()
     plt.xlabel('Date')
 
-    return fig, nps,nds
+    return fig,nps1,nps2,nds
 
 st.title("Anomaly Visualization")
 st.write('Bloomberg capstone group Bravo:')
@@ -88,17 +96,24 @@ ticker = st.selectbox(
     placeholder='Select...'
 )
 
-model = st.selectbox(
+model1 = st.selectbox(
     "Select a model",
     model_list,
     placeholder='Select...'
 )
-model = word_match[model]
+model1 = word_match[model1]
 
-thd_prob=st.number_input(
-    "Input the desired probability ",min_value=0.0, max_value=1.0, value=0.90, placeholder="Type a probability..."
+model2 = st.selectbox(
+    "Select a model",
+    model_list,
+    placeholder='Select...'
 )
-st.write(f"The current probability is {thd_prob}.")
+model2 = word_match[model2]
+
+anom_num=st.number_input(
+    "Input the desired number of anomalies ", min_value=1, value=5, step=1, placeholder="Type an integer..."
+)
+st.write(f"The number of anomalies allowed is {anom_num}.")
 
 default_start= datetime(2015, 10, 20)
 default_end=datetime(2024, 8, 29)
@@ -118,8 +133,10 @@ if date_range_string:
     st.write(f"Date Range Picker [{dstart}, {dend}]")
 
 
-if ticker and thd_prob and model and date_range_string:
-    fig,nps,nds = plot_anomalies(ticker, thd_prob, data, dstart, dend , model)
+if ticker and anom_num and model and date_range_string:
+    fig,nps1,nps2,nds = plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1,model2)
     st.pyplot(fig)
-    st.write(f"In total {nps} anomalies detected within {nds} days.")
+    st.write(f"{nps1} anomalies detected by {model1}")
+    st.write(f"and {nps2} anomalies detected by {model2}")
+    st.write(f"within {nds} days.")
     # plt.show()
