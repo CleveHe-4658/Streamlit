@@ -101,17 +101,19 @@ model1 = st.selectbox(
     model_list,
     placeholder='Select...'
 )
-model1 = word_match[model1]
 
+model_list_copy=model_list[:]
+model_list_copy.remove(model1)
+model1 = word_match[model1]
 model2 = st.selectbox(
     "Select another model",
-    model_list,
+    model_list_copy,
     placeholder='Select...'
 )
 model2 = word_match[model2]
 
 anom_num=st.number_input(
-    "Input the desired number of anomalies ", min_value=1, value=5, step=1, placeholder="Type an integer..."
+    "Input the desired number of anomalies ", min_value=1, value=50, step=1, placeholder="Type an integer..."
 )
 st.write(f"The number of anomalies allowed is {anom_num}.")
 
