@@ -26,6 +26,17 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     anomalies2 = data_tic.sort_values(by=f'{model2}_Anomaly_Probability', ascending=False).head(min(nds,anom_num))
     nps2=len(anomalies2)
 
+    anomalies_intersec = pd.merge(anomalies1, anomalies2, on='key', how='inner')
+    ncs=len(anomalies_intersec)
+    
+    anomalies_diff1 = anomalies1.merge(anomalies2, on='key', how='left', indicator=True)
+    anomalies_diff1 = anomalies_diff1[anomalies_diff1['_merge'] == 'left_only']
+    anomalies_diff1.drop('_merge', axis=1, inplace=True)
+    
+    anomalies_diff2 = anomalies2.merge(anomalies1, on='key', how='left', indicator=True)
+    anomalies_diff2 = anomalies_diff2[anomalies_diff2['_merge'] == 'left_only']
+    anomalies_diff2.drop('_merge', axis=1, inplace=True)
+
     # Plotting
     fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
 
@@ -40,16 +51,20 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     ax[2].set(title=f'{ticker} Volume Anomalies')
     
 
-    # Mark anomalies for model 1
-    ax[0].scatter(anomalies1['date'], anomalies1['close'], color='red', label=f'{model1} Anomaly', marker='^')
-    ax[1].scatter(anomalies1['date'], anomalies1['return'], color='red', label=f'{model1} Anomaly', marker='^')
-    ax[2].bar(anomalies1['date'], anomalies1['log_volume'], color='red', label=f'{model1} Anomaly', width=1)
+    # Mark anomalies for model 1 only
+    ax[0].scatter(anomalies_diff1['date'], anomalies_diff1['close'], color='red', label=f'{model1} Only Anomaly', marker='^')
+    ax[1].scatter(anomalies_diff1['date'], anomalies_diff1['return'], color='red', label=f'{model1} Only Anomaly', marker='^')
+    ax[2].bar(anomalies_diff1['date'], anomalies_diff1['log_volume'], color='red', label=f'{model1} Only Anomaly', width=1)
     
-    # Mark anomalies for model 2
-    ax[0].scatter(anomalies2['date'], anomalies2['close'], color='green', label=f'{model2} Anomaly', marker='^')
-    ax[1].scatter(anomalies2['date'], anomalies2['return'], color='green', label=f'{model2} Anomaly', marker='^')
-    ax[2].bar(anomalies2['date'], anomalies2['log_volume'], color='green', label=f'{model2} Anomaly', width=1)
+    # Mark anomalies for model 2 only
+    ax[0].scatter(anomalies_diff2['date'], anomalies_diff2['close'], color='green', label=f'{model2} Only Anomaly', marker='^')
+    ax[1].scatter(anomalies_diff2['date'], anomalies_diff2['return'], color='green', label=f'{model2} Only Anomaly', marker='^')
+    ax[2].bar(anomalies_diff2['date'], anomalies_diff2['log_volume'], color='green', label=f'{model2} Only Anomaly', width=1)
 
+    # Mark anomalies for intersect
+    ax[0].scatter(anomalies_intersec['date'], anomalies_intersec['close'], color='darkorange', label='Shared Anomaly', marker='^')
+    ax[1].scatter(anomalies_intersec['date'], anomalies_intersec['return'], color='darkorange', label='Shared Anomaly', marker='^')
+    ax[2].bar(anomalies_intersec['date'], anomalies_intersec['log_volume'], color='darkorange', label='Shared Anomaly', width=1)
     
     # show legend and xlabel
     ax[0].legend()
@@ -57,7 +72,7 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     ax[2].legend()
     plt.xlabel('Date')
 
-    return fig,nps1,nps2,nds
+    return fig,nps1,nps2,nds,ncs
 
 st.title("Anomaly Visualization to compare two models")
 st.write('Bloomberg capstone group Bravo:')
@@ -136,9 +151,10 @@ if date_range_string:
 
 
 if ticker and anom_num and model1 and model2 and date_range_string:
-    fig,nps1,nps2,nds = plot_anomalies(ticker, anom_num, data,dstart, dend, model1,model2)
+    fig,nps1,nps2,nds,ncs = plot_anomalies(ticker, anom_num, data,dstart, dend, model1,model2)
     st.pyplot(fig)
     st.write(f"{nps1} anomalies detected by {model1}")
-    st.write(f"and {nps2} anomalies detected by {model2}")
+    st.write(f"and {nps2} anomalies detected by {model2},")
+    st.write(f"with {ncs} anomalies shared,")
     st.write(f"within {nds} days.")
     # plt.show()
