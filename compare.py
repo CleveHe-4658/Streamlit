@@ -25,8 +25,8 @@ def plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1='DBSCAN',mode
     nps1=len(anomalies1)
     anomalies2 = data_tic.sort_values(by=f'{model2}_Anomaly_Probability', ascending=False).head(min(nds,anom_num))
     nps2=len(anomalies2)
-
-    anomalies_intersec = pd.merge(anomalies1, anomalies2, on='date', how='inner')
+    
+    anomalies_intersec = pd.concat([anomalies1, anomalies2], ignore_index=True).drop_duplicates()
     ncs=len(anomalies_intersec)
 
     # Plotting
