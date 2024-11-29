@@ -134,7 +134,7 @@ if date_range_string:
 
 
 if ticker and anom_num and model1 and model2 and date_range_string:
-    fig,nps1,nps2,nds = plot_anomalies(ticker, anom_num, scaled_data,stdt,eddt, model1,model2)
+    fig,nps1,nps2,nds = plot_anomalies(ticker, anom_num, data,stdt,eddt, model1,model2)
     st.pyplot(fig)
     st.write(f"{nps1} anomalies detected by {model1}")
     st.write(f"and {nps2} anomalies detected by {model2}")
