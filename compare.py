@@ -86,18 +86,20 @@ To view the labelled anomalies, choose one ticker and one model type from the se
 Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted by a range slider. 
 """)
 
-data = pd.read_csv("df_final_prob.csv", parse_dates=['date'])
+data = pd.read_csv("df_final_prob_renewed.csv", parse_dates=['date'])
 
 word_match = { # show : colname
     'DBSCAN': 'DBSCAN',
     'Isolation Forest': 'IsolationForest',
     'One-class SVM' : 'OCSVM',
+    'LSTM' : 'LSTM',
+    'Statistical Model' : 'stat',
     #'Statistical Model' : 'stat',
     #'Autoencoder': 'Autoencoder',
 }
 
 # data = data[['date', 'tic', 'close', 'volume',
-#        'DBSCAN_Anomaly_Probability', 'IsolationForest_Anomaly_Probability', 'OCSVM_Anomaly_Probability']]
+#        'DBSCAN_Anomaly_Probability','IsolationForest_Anomaly_Probability','OCSVM_Anomaly_Probability','LSTM_Anomaly_Probability','stat_Anomaly_Probability']]
 
 ticker_list = data['tic'].unique()
 model_list = list(word_match.keys())
