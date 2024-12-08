@@ -82,7 +82,7 @@ st.write("""\n
 This is a visualization to compare the detected anomalies between two of our models. 
 Available stock universe is the top 17 of the 200 least liquid stocks in Russell 2000. 
 Available models includes statistical, DBSCAN, Isolation forest, One-class SVM, Autoencoder, and LSTM.\n
-To view the labelled anomalies, choose one ticker and two different model types from the two selection bars.
+To view the labelled anomalies, choose one ticker and two different model types from the selection bars, and input the desired number of anomalies.\n
 Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted through the date range picker. 
 """)
 
