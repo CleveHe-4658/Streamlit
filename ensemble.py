@@ -56,10 +56,9 @@ st.write('Bloomberg capstone group Bravo:')
 st.write("Xinran Cheng, Zhaoyang Hong, Qi Wu, Haoran Yang, Cleve He")
 
 st.write("""\n
-This is a visualization of the detected anomalies by our models. 
+This is a visualization of the detected anomalies by the ensemble model combining all models includes statistical, DBSCAN, Isolation forest, One-class SVM, Autoencoder, and LSTM.\n 
 Available stock universe is the top 17 of the 200 least liquid stocks in Russell 2000. 
-Available models includes statistical, DBSCAN, Isolation forest, One-class SVM, Autoencoder, and LSTM.\n
-To view the labelled anomalies, choose one ticker and one model type from the selection bar.
+To view the labelled anomalies, choose one ticker from the selection bar.
 Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted through the date range picker. 
 """)
 
