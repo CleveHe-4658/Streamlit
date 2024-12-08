@@ -133,7 +133,7 @@ model2 = word_match[model2]
 anom_num=st.number_input(
     "Input the desired number of anomalies ", min_value=1, value=50, step=1, placeholder="Type an integer..."
 )
-st.write(f"The number of anomalies allowed is {anom_num}.")
+st.write(f"The number of anomalies allowed is {int(anom_num):d}.")
 
 default_start= datetime(2015, 10, 20)
 default_end=datetime(2024, 8, 29)
