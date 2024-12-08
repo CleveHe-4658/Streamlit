@@ -60,7 +60,7 @@ This is a visualization of the detected anomalies by our models.
 Available stock universe is first 17 of the 200 least liquid stocks in Russell 2000. 
 Available models includes statistical, DBSCAN, Isolation forest, One-class SVM, Autoencoder, and LSTM.\n
 To view the labelled anomalies, choose one ticker and one model type from the selection bar.
-Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted by a range slider. 
+Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted through the date range picker. 
 """)
 
 data = pd.read_csv("df_final_prob_renewed.csv", parse_dates=['date'])
