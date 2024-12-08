@@ -88,7 +88,7 @@ if ticker and anom_num and date_range_string:
     data_tic['log_volume'] = np.log(data_tic['volume']+1)
 
     # Plotting
-    fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,16))
+    fig, ax = plt.subplots(3, 1, sharex=True, figsize=(16,32))
 
     # Plot the close price and volume
     ax[0].plot(data_tic['date'], data_tic['close'], color='wheat',label='Close Price')
