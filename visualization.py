@@ -69,6 +69,7 @@ word_match = { # show : colname
     'DBSCAN': 'DBSCAN',
     'Isolation Forest': 'IsolationForest',
     'One-class SVM' : 'OCSVM',
+    'Autoencoder': 'Autoencoder',
     'LSTM' : 'LSTM',
     'Statistical Model' : 'stat',
     #'Statistical Model' : 'stat',
@@ -76,7 +77,7 @@ word_match = { # show : colname
 }
 
 # data = data[['date', 'tic', 'close', 'volume',
-#        'DBSCAN_Anomaly_Probability','IsolationForest_Anomaly_Probability','OCSVM_Anomaly_Probability','LSTM_Anomaly_Probability','stat_Anomaly_Probability']]
+#        'DBSCAN_Anomaly_Probability','IsolationForest_Anomaly_Probability','OCSVM_Anomaly_Probability','Autoencoder_Anomaly_Probability','LSTM_Anomaly_Probability','stat_Anomaly_Probability']]
 
 ticker_list = data['tic'].unique()
 model_list = list(word_match.keys())
