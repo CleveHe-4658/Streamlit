@@ -70,7 +70,7 @@ model_list = list(word_match.keys())
 color_match = { # show : colname
     'DBSCAN': 'red',
     'Isolation Forest': 'green',
-    'One-class SVM' : 'darkorange',
+    'One-class SVM' : 'darkgoldenrod',
     'Autoencoder': 'blue',
     'LSTM' : 'darkviolet',
     'Statistical Model' : 'deeppink',
