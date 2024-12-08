@@ -92,6 +92,7 @@ word_match = { # show : colname
     'DBSCAN': 'DBSCAN',
     'Isolation Forest': 'IsolationForest',
     'One-class SVM' : 'OCSVM',
+    'Autoencoder': 'Autoencoder',
     'LSTM' : 'LSTM',
     'Statistical Model' : 'stat',
     #'Statistical Model' : 'stat',
