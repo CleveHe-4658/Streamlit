@@ -51,14 +51,14 @@ def plot_anomalies(ticker, thd_prob, scaled_data,stdt,eddt, model='DBSCAN'):
 
     return fig, nps,nds
 
-st.title("Anomaly Visualization")
+st.title("Anomaly Visualization of the ensemble model")
 st.write('Bloomberg capstone group Bravo:')
 st.write("Xinran Cheng, Zhaoyang Hong, Qi Wu, Haoran Yang, Cleve He")
 
 st.write("""\n
 This is a visualization of the detected anomalies by the ensemble model combining all models includes statistical, DBSCAN, Isolation forest, One-class SVM, Autoencoder, and LSTM.\n 
 Available stock universe is the top 17 of the 200 least liquid stocks in Russell 2000. 
-To view the labelled anomalies, choose one ticker from the selection bar and input the desired number.
+To view the labelled anomalies, choose one ticker from the selection bar and input the desired number of anomalies given by each model .
 Time horizon ranges from 2015-10-20 to 2024-08-29 and can be adjusted through the date range picker. 
 """)
 
@@ -97,6 +97,10 @@ model = st.selectbox(
 )
 model = word_match[model]
 
+anom_num=st.number_input(
+    "Input the desired number of anomalies ", min_value=1, value=50, step=1, placeholder="Type an integer..."
+)
+st.write(f"The number of anomalies allowed is {anom_num}.")
 thd_prob=st.number_input(
     "Input the desired probability ",min_value=0.0, max_value=1.0, value=0.90, placeholder="Type a probability..."
 )
